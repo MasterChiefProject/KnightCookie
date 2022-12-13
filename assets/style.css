@@ -1,0 +1,30 @@
+body {
+}
+table {
+	background-image: url("images/background.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	border: 1px solid black;
+}
+
+td, th {
+	width: 100px;
+	height: 100px;
+	border: 1px solid black;
+	text-align: center;
+}
+.main {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.user {
+	width: 20%;
+}
+.game {
+	width: 60%;
+}
+.war {
+	width: 20%;
+}
+</style>
