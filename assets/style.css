@@ -1,17 +1,22 @@
-/* body {
-} */
+body {
+	background: black;
+	color: white;
+}
 table {
 	background-image: url("images/background.jpg");
 	background-repeat: no-repeat;
 	background-size: cover;
-	border: 1px solid black;
+	border: 1px solid brown;
 }
 
 td, th {
-	width: 100px;
-	height: 100px;
-	border: 1px solid black;
+	width: 60px;
+	height: 60px;
 	text-align: center;
+	border-left: 1px solid black;
+	border-right: 1px solid brown;
+	border-top: 1px solid black;
+	border-bottom: 1px solid brown;
 }
 .main {
 	display: flex;
@@ -26,5 +31,17 @@ td, th {
 }
 .war {
 	width: 20%;
+	background: darkred;
+	margin: 10px;
+	border: 3px solid #58111A;
+	border-radius: 25px;
+	height: 300px;
 }
-/* </style> */
+.fightArgmntLeft {
+	float: left;
+	width: 50%
+}
+.fightArgmntRight {
+	float: right;
+	width: 50%;
+}

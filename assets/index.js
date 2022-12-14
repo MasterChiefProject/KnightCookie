@@ -1,16 +1,16 @@
 let userLife = 200;
-let monsterLife = 50;
-let monsterDamage = 10;
 let userDamage = 5;
 let boardRows = 0;
 let boardCols = 0;
+let moveAbility = 1;
+const player = "<img src=\"assets/images/cookie.png\" width=\"25px\" height=\"25px\"/>"
 
 let monstersJson = '{ "monsters" : [' +
 '{ "id":"0" , "name":"Broccoli" , "img":"assets/images/broccoli.png" , "life":"80" , "damage":"25" },' +
 '{ "id":"1" , "name":"Carrot" , "img":"assets/images/carrot.gif" , "life":"120" , "damage":"5" },' +
 '{ "id":"2" , "name":"Beetroot" , "img":"assets/images/beetroot.png" , "life":"100" , "damage":"20" },' +
 '{ "id":"3" , "name":"Pepper" , "img":"assets/images/pepper.png" , "life":"110" , "damage":"45" },' +
-'{ "id":"4" , "name":"Spinach" , "img":"assets/images/spinach.png" , "life":"160" , "damage":"35" },' +
+'{ "id":"4" , "name":"Spinach" , "img":"assets/images/spinach.jpg" , "life":"160" , "damage":"35" },' +
 '{ "id":"5" , "name":"Avocado" , "img":"assets/images/avocado.png" , "life":"170" , "damage":"40" },' +
 '{ "id":"6" , "name":"Walnuts" , "img":"assets/images/walnut.webp" , "life":"70" , "damage":"50" },' +
 '{ "id":"7" , "name":"Apple" , "img":"assets/images/apple.webp" , "life":"300" , "damage":"30" },' +
@@ -20,7 +20,7 @@ let monstersJson = '{ "monsters" : [' +
 const obj = JSON.parse(monstersJson);
 
 // Create the board as a boardSize x boardSize two-dimensional array
-const boardSize = 25;
+const boardSize = 10;
 let board = new Array(boardSize);
 for (let i = 0; i < boardSize; i++) {
 	board[i] = new Array(boardSize);
@@ -31,19 +31,17 @@ for (let i = 0; i < boardSize; i++) {
 	for (let j = 0; j < boardSize; j++) {
 		const randNum = Math.floor(Math.random() * 4) + 1;
 		if(randNum == 2){
-			board[i][j] = "item";
+			const randItem = Math.floor(Math.random() * 10);
+			board[i][j] = "<img src=\"assets/images/questionMark.png\" width=\"25px\" height=\"25px\" style=\"position:absolute\"/> <span style=\"visibility: collapse;\"; class=\"type\"> item </span> <span style=\"visibility: hidden;\"; class=\"number\">" + obj.monsters[randItem].id + "</span>";
 		}else if(randNum == 3){
-			board[i][j] = "monster";
 			const randMon = Math.floor(Math.random() * 10);
-			//board[i][j] = "<img src=\"" + obj.monsters[randMon].img + "\" /><span style=\"visibility: hidden;\"; class=\"type\">monster</span> <span style=\"visibility: hidden;\"; class=\"number\">" + obj.monsters[randMon].id + "</span>";
-			board[i][j] = (JSON.stringify(obj.monsters[randMon].img));
-			
+			board[i][j] = "<img src=\"assets/images/questionMark.png\" width=\"25px\" height=\"25px\" style=\"position:absolute\"/> <span style=\"visibility: collapse;\"; class=\"type\"> monster </span> <span style=\"visibility: hidden;\"; class=\"number\">" + obj.monsters[randMon].id + "</span>";
 		}else{
-			board[i][j] = "empty";
+			board[i][j] = "";
 		}
 	}
 }
-board[0][0] = "player";
+board[0][0] = player;
 board[boardSize-1][boardSize-1] = "finish line";
 
 function createTable(tableData) {
@@ -59,63 +57,69 @@ function createTable(tableData) {
 	  rowData.forEach(function(cellData) {
 		let cell = document.createElement('td');
 
-		cell.appendChild(document.createTextNode(cellData));
+		cell.innerHTML = "<div style=\"display:flex; flex-direction:column; justify-content:center; align-items:center;\">" + cellData + "</div>";
 		row.appendChild(cell);
 	  });
 
 	  tableBody.appendChild(row);
 	});
-
 	table.appendChild(tableBody);
-	document.body.appendChild(table);
-	return table;
+	document.getElementById('game').appendChild(table);
 }
-let t=createTable(board);
+createTable(board);
 
 function stepLeft(rows,cols)
 {
-    if(cols===0)
-    {
-        return;
-    }
-    board[rows][cols]="empty";
-    board[rows][cols-1]="player";
-	boardCols--;
+	if(moveAbility){
+		if(cols===0)
+		{
+			return;
+		}
+		board[rows][cols]="";
+		board[rows][cols-1]=player;
+		boardCols--;
+	}
 }
 
 function stepRight(rows,cols)
 {
-    if(cols === (boardSize - 1))
-    {
-        return;
-    }
+	if(moveAbility){
+		if(cols === (boardSize - 1))
+		{
+			return;
+		}
 
-	board[rows][cols]="empty";
-    board[rows][cols+1]="player";
-	boardCols++;
+		board[rows][cols]="";
+		board[rows][cols+1]=player;
+		boardCols++;
+	}
 }
 
 function stepUp(rows,cols)
 {
-    if(rows===0)
-    {
-        return;
-    }
+	if(moveAbility){
+		if(rows===0)
+		{
+			return;
+		}
 
-    board[rows][cols]="empty";
-    board[rows-1][cols]="player";
-	boardRows--;
+		board[rows][cols]="";
+		board[rows-1][cols]=player;
+		boardRows--;
+	}
 }
 
 function stepDown(rows,cols)
 {
-    if(rows===(boardSize - 1))
-    {
-        return;
-    }
-    board[rows][cols]="empty";
-    board[rows+1][cols]="player";
-	boardRows++;
+	if(moveAbility){
+		if(rows===(boardSize - 1))
+		{
+			return;
+		}
+		board[rows][cols]="";
+		board[rows+1][cols]=player;
+		boardRows++;
+	}
 }
 
 let pressed = false; 
@@ -147,15 +151,32 @@ document.addEventListener('keyup' , function(event) {
     pressed = false;
 })
 
-function myLoop() {
-	setTimeout(function() {
-		document.getElementById("fight").innerHTML = "<br /> Player Life: " + userLife + " | " + "Monster Life: " + monsterLife;
-		userLife -= monsterDamage;
-		monsterLife -= userDamage;
-		if (userLife > 0 && monsterLife > 0) {
-			myLoop();
-		}
-	}, 1000)
+function fight(i){
+	moveAbility = 0;
+	let monsterLife = obj.monsters[i].life;
+	let monsterDamage = obj.monsters[i].damage;
+	function fightArgmnt(){
+		setTimeout(function() {
+			document.getElementById("fight").innerHTML = "<div class=\"fightArgmntLeft\">Player Life: " + userLife + "<br /><img src=\"assets/images/cookie.png\" height=\"50px\" /><br />Power: " + userDamage + "</div><div class=\"fightArgmntRight\">Monster Life: " + monsterLife + "<br /><img src=\"" + obj.monsters[i].img + "\" height=\"50px\" /><br />Power: " + monsterDamage + "</div>";
+			userLife -= monsterDamage;
+			monsterLife -= userDamage;
+			if (userLife > 0 && monsterLife > 0) {
+				fightArgmnt();
+			}else if(userLife > 0){
+				moveAbility = 1;
+				document.getElementById("fight").innerHTML = "You Won!";
+				return 1;
+			}else{
+				moveAbility = 0;
+				document.getElementById("fight").innerHTML = "You Lost!";
+				return 0;
+			}
+		}, 250)
+	}
+	let arg = fightArgmnt();
+	if(arg === 0){
+		return 0;
+	}
+	return 1;
 }
-myLoop(); 
 
