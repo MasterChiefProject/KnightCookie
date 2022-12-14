@@ -35,7 +35,9 @@ for (let i = 0; i < boardSize; i++) {
 		}else if(randNum == 3){
 			board[i][j] = "monster";
 			const randMon = Math.floor(Math.random() * 10);
-			// board[i][j] = "<img src="" + obj.monsters[randMon].img + "" /><span style="visibility: hidden;"; class="type">monster</span> <span style="visibility: hidden;"; class="number">" + obj.monsters[randMon].id + "</span>";
+			//board[i][j] = "<img src=\"" + obj.monsters[randMon].img + "\" /><span style=\"visibility: hidden;\"; class=\"type\">monster</span> <span style=\"visibility: hidden;\"; class=\"number\">" + obj.monsters[randMon].id + "</span>";
+			board[i][j] = (JSON.stringify(obj.monsters[randMon].img));
+			
 		}else{
 			board[i][j] = "empty";
 		}
@@ -44,18 +46,41 @@ for (let i = 0; i < boardSize; i++) {
 board[0][0] = "player";
 board[boardSize-1][boardSize-1] = "finish line";
 
+function createTable(tableData) {
+	let table = document.createElement('table');
+	table.setAttribute("id","table");
+
+	let tableBody = document.createElement('tbody');
+
+
+	tableData.forEach(function(rowData) {
+	  let row = document.createElement('tr');
+
+	  rowData.forEach(function(cellData) {
+		let cell = document.createElement('td');
+
+		cell.appendChild(document.createTextNode(cellData));
+		row.appendChild(cell);
+	  });
+
+	  tableBody.appendChild(row);
+	});
+
+	table.appendChild(tableBody);
+	document.body.appendChild(table);
+	return table;
+}
+let t=createTable(board);
+
 function stepLeft(rows,cols)
 {
     if(cols===0)
     {
         return;
     }
-
     board[rows][cols]="empty";
     board[rows][cols-1]="player";
 	boardCols--;
-	console.log("left");
-	console.log(boardCols);
 }
 
 function stepRight(rows,cols)
@@ -68,9 +93,6 @@ function stepRight(rows,cols)
 	board[rows][cols]="empty";
     board[rows][cols+1]="player";
 	boardCols++;
-	console.log("right");
-	console.log(boardCols);
-	
 }
 
 function stepUp(rows,cols)
@@ -83,8 +105,6 @@ function stepUp(rows,cols)
     board[rows][cols]="empty";
     board[rows-1][cols]="player";
 	boardRows--;
-	console.log("up");
-	console.log(boardRows);
 }
 
 function stepDown(rows,cols)
@@ -96,32 +116,37 @@ function stepDown(rows,cols)
     board[rows][cols]="empty";
     board[rows+1][cols]="player";
 	boardRows++;
-	console.log("down");
-	console.log(boardRows);
 }
 
 let pressed = false; 
 document.addEventListener('keydown', function(event) {
     if (pressed) return;
    	pressed = true;
-    if (event.key === "ArrowLeft" || event.key === "a") 
-     	return stepLeft(boardRows, boardCols);
 
-    if (event.key === "ArrowRight" || event.key === "d" )  
-     	return stepRight(boardRows, boardCols);
+	document.getElementById("table").remove();
+	
+    if (event.key === "ArrowLeft" || event.key === "a" || event.key === "ש") 
+		stepLeft(boardRows, boardCols);
+	
 
-    if (event.key === "ArrowUp" || event.key === "w") 
-     	return stepUp(boardRows,boardCols);
+    else if (event.key === "ArrowRight" || event.key === "d" || event.key === "ג")  
+		stepRight(boardRows, boardCols);
+	
 
-    if (event.key === "ArrowDown" || event.key === "s") 
-     	return stepDown(boardRows,boardCols);
+    else if (event.key === "ArrowUp" || event.key === "w" || event.key === "'") 
+		stepUp(boardRows,boardCols);
+	
+
+    else if (event.key === "ArrowDown" || event.key === "s" || event.key === "ד") 
+		stepDown(boardRows,boardCols);
+
+	createTable(board);
 })
 
 document.addEventListener('keyup' , function(event) {
     pressed = false;
 })
 
-console.log(board);
 function myLoop() {
 	setTimeout(function() {
 		document.getElementById("fight").innerHTML = "<br /> Player Life: " + userLife + " | " + "Monster Life: " + monsterLife;
@@ -133,3 +158,4 @@ function myLoop() {
 	}, 1000)
 }
 myLoop(); 
+
