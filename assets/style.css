@@ -1,3 +1,7 @@
+*{
+	font-family: "Assistant";
+}
+
 body {
 	background: black;
 	color: white;
@@ -19,6 +23,7 @@ td, th {
 	border-top: 1px solid black;
 	border-bottom: 1px solid brown;
 }
+
 .main {
 	display: flex;
 	align-items: center;
@@ -43,16 +48,20 @@ td, th {
 	border-radius: 25px;
 	height: 300px;
 }
-.fightArgmntLeft {
+.fightArgmntLeft, .statLeft {
 	float: left;
-	width: 50%
+	width: 50%;
+	font-size: small;
+	font-weight: bold;
 }
-.fightArgmntRight {
+.fightArgmntRight, .statRight {
 	float: right;
 	width: 50%;
+	font-size: small;
+	font-weight: bold;
 }
 
-#play{
+#refresh-button{
 	width: 100px;
 	height: 25px;
 }

@@ -119,22 +119,37 @@ function createTable(tableData) {
 	document.getElementById('game').appendChild(table);
 }
 
+function createStat()
+{
+	document.getElementById("stats").innerHTML = "<div style=\"display:flex; flex-direction:row; justify-content:center; align-items:flex-end; padding-top:2.5rem;\">" + "<div class=\"fightArgmntLeft\">Player Life: " + userLife + "<br /><img src=\"assets/images/cookie.webp\" height=\"50px\" /><br />Damage:" + userDamage + "</div>" + "</div>";
+}
+createStat();
+
 function typeCheck(rows, cols, i ,j)
 {
-	if( board[rows+i][cols+j].includes("class=\"mosnter\""))
+	if(board[rows+i][cols+j].includes("finishLine.webp"))
 	{
-		let id = parseInt(board[rows+i][cols+j].replace(/\D/g,'').slice(3,4));
+		setTimeout(function(){
+		alert("Congratulations! You have finished the game succesfully!");}
+		,10);
+		document.getElementById("stats").innerHTML = "<div style=\"display:flex; flex-direction:row; justify-content:center; align-items:flex-end; padding-top:2.5rem;\">" + "You Have Won The Game!"  + "</div>";
+		let btn = document.getElementById("refresh-button-stats");
+		btn.removeAttribute("hidden");
+		btn.innerHTML = "Play Again";
+	}
+	if(board[rows+i][cols+j].includes("class=\"mosnter\""))
+	{
+		let id = parseInt(board[rows+i][cols+j].replace(/\D/g,'').slice(4,5));
 		fight(id);
 		return;
 	} 
 	if( board[rows+i][cols+j].includes("class=\"item\""))
 	{
-		let id = parseInt(board[rows+i][cols+j].replace(/\D/g,'').slice(3,4));
+		let id = parseInt(board[rows+i][cols+j].replace(/\D/g,'').slice(4,5));
 		supply(id);
 		return;
 	} 
 }
-
 
 function stepLeft(rows,cols)
 {
@@ -210,7 +225,7 @@ function fight(i){
 			}else{
 				moveAbility = 0;
 				document.getElementById("fight").innerHTML = "<div style=\"display:flex; flex-direction:row; justify-content:center; align-items:flex-end; padding-top:2.5rem;\">" + "You Lost!"  + "</div>";
-				let btn = document.getElementById("play");
+				let btn = document.getElementById("refresh-button-war");
 				btn.removeAttribute("hidden");
 				btn.innerHTML = "Play Again";
 				return 0;
@@ -225,7 +240,11 @@ function fight(i){
 }
 
 function supply(i){
-	document.getElementById("stats").innerHTML = "hooga booga!";
+	let itemLife = parseInt(objItem.items[i].extraLife);
+	let itemDamage = parseInt(objItem.items[i].extraDamage);
+	userLife += itemLife;
+	userDamage += itemDamage;
+	document.getElementById("stats").innerHTML = "<div style=\"display:flex; flex-direction:row; justify-content:flex-start; align-items:flex-end; padding-top:2.5rem;\">" + "<div class =\"statLeft\">HP addition: " + itemLife + "<br /><img src=\"" + objItem.items[i].img + "\" height=\"50px\" /><br />Damage addition: " + itemDamage + "</div>" + "<div class =\"statRight\"> Updated Life: " + userLife + "<br /><img src=\"assets/images/cookie.webp\" height=\"50px\" /><br />Updated Damage: " + userDamage + "</div>" + "</div>" + "</div>";
 	return 1;
 }
 //////////////////////////////---FUNCTIONS---//////////////////////////////
