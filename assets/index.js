@@ -26,7 +26,9 @@ let itemsJson = '{ "items" : [' +
 '{ "id":"3" , "name":"Rainbow" , "img":"assets/images/dragees.webp" , "extraLife":"30" , "extraDamage":"30" } ]}';
 
 let pressed = false;
-const obj = JSON.parse(monstersJson);
+const objMonster = JSON.parse(monstersJson);
+const objItem = JSON.parse(itemsJson);
+
 
 // Create the board as a boardSize x boardSize two-dimensional array
 const boardSize = 10;
@@ -34,17 +36,16 @@ let board = new Array(boardSize);
 for (let i = 0; i < boardSize; i++) {
 	board[i] = new Array(boardSize);
 }
-
 // Initialize the board with players and monsters
 for (let i = 0; i < boardSize; i++) {
 	for (let j = 0; j < boardSize; j++) {
 		const randNum = Math.floor(Math.random() * 4) + 1;
 		if(randNum == 2){
-			const randItem = Math.floor(Math.random() * 10);
-			board[i][j] = "<img src=\"assets/images/questionMark.webp\" width=\"25px\" height=\"25px\" style=\"position:absolute\"/> <span style=\"visibility: collapse;\"; class=\"item\"> item </span> <span style=\"visibility: hidden;\"; class=\"number\">" + obj.monsters[randItem].id + "</span>";
+			const randItem = Math.floor(Math.random() * 4);
+			board[i][j] = "<img src=\"assets/images/questionMark.webp\" width=\"25px\" height=\"25px\" style=\"position:absolute\"/> <span style=\"visibility: collapse;\"; class=\"item\"> item </span> <span style=\"visibility: hidden;\"; class=\"number\">" + objItem.items[randItem].id + "</span>";
 		}else if(randNum == 3){
-			const randMon = Math.floor(Math.random() * 10);
-			board[i][j] = "<img src=\"assets/images/questionMark.webp\" width=\"25px\" height=\"25px\" style=\"position:absolute\"/> <span style=\"visibility: collapse;\"; class=\"mosnter\"> monster </span> <span style=\"visibility: hidden;\"; class=\"number\">" + obj.monsters[randMon].id + "</span>";
+			const randMonster = Math.floor(Math.random() * 10);
+			board[i][j] = "<img src=\"assets/images/questionMark.webp\" width=\"25px\" height=\"25px\" style=\"position:absolute\"/> <span style=\"visibility: collapse;\"; class=\"mosnter\"> monster </span> <span style=\"visibility: hidden;\"; class=\"number\">" + objMonster.monsters[randMonster].id + "</span>";
 		}else{
 			board[i][j] = "";
 		}
@@ -53,6 +54,7 @@ for (let i = 0; i < boardSize; i++) {
 board[0][0] = player;
 board[boardSize-1][boardSize-1] = "finish line";
 //////////////////////////////---VARIABLES---//////////////////////////////
+
 
 
 //////////////////////////////------MAIN-----//////////////////////////////
@@ -211,4 +213,9 @@ function fight(i){
 	}
 	return 1;
 }
+
+function supply(i){
+
+}
+
 //////////////////////////////---FUNCTIONS---//////////////////////////////
