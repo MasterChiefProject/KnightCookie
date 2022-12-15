@@ -127,6 +127,11 @@ function typeCheck(rows, cols)
 		let id = parseInt(board[rows][cols+1].replace(/\D/g,'').slice(3,4));
 		fight(id);
 	} 
+	if( board[rows][cols+1].includes("class=\"item\""))
+	{
+		let id = parseInt(board[rows][cols+1].replace(/\D/g,'').slice(3,4));
+		supply(id);
+	} 
 }
 
 
@@ -187,11 +192,11 @@ function stepDown(rows,cols)
 
 function fight(i){
 	moveAbility = 0;
-	let monsterLife = obj.monsters[i].life;
-	let monsterDamage = obj.monsters[i].damage;
+	let monsterLife = objMonster.monsters[i].life;
+	let monsterDamage = objMonster.monsters[i].damage;
 	function fightArgmnt(){
 		setTimeout(function() {
-			document.getElementById("fight").innerHTML = "<div class=\"fightArgmntLeft\">Player Life: " + userLife + "<br /><img src=\"assets/images/cookie.webp\" height=\"50px\" /><br />Power: " + userDamage + "</div><div class=\"fightArgmntRight\">Monster Life: " + monsterLife + "<br /><img src=\"" + obj.monsters[i].img + "\" height=\"50px\" /><br />Power: " + monsterDamage + "</div>";
+			document.getElementById("fight").innerHTML = "<div class=\"fightArgmntLeft\">Player Life: " + userLife + "<br /><img src=\"assets/images/cookie.webp\" height=\"50px\" /><br />Power: " + userDamage + "</div><div class=\"fightArgmntRight\">Monster Life: " + monsterLife + "<br /><img src=\"" + objMonster.monsters[i].img + "\" height=\"50px\" /><br />Power: " + monsterDamage + "</div>";
 			userLife -= monsterDamage;
 			monsterLife -= userDamage;
 			if (userLife > 0 && monsterLife > 0) {
@@ -215,7 +220,7 @@ function fight(i){
 }
 
 function supply(i){
-
+	document.getElementById("stats").innerHTML = "hooga booga!";
+	return 1;
 }
-
 //////////////////////////////---FUNCTIONS---//////////////////////////////
