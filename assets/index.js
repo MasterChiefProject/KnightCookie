@@ -6,7 +6,7 @@ let boardCols = 0;
 let moveAbility = 1;
 
 const player = "<img src=\"assets/images/cookie.webp\" width=\"25px\" height=\"25px\"/>"
-
+const finishLine = "<img src=\"assets/images/finishLine.webp\" width=\"60px\" height=\"60px\"/>"
 let monstersJson = '{ "monsters" : [' +
 '{ "id":"0" , "name":"Broccoli" , "img":"assets/images/broccoli.webp" , "life":"80" , "damage":"25" },' +
 '{ "id":"1" , "name":"Carrot" , "img":"assets/images/carrot.webp" , "life":"120" , "damage":"5" },' +
@@ -52,7 +52,7 @@ for (let i = 0; i < boardSize; i++) {
 	}
 }
 board[0][0] = player;
-board[boardSize-1][boardSize-1] = "finish line";
+board[boardSize-1][boardSize-1] = finishLine;
 //////////////////////////////---VARIABLES---//////////////////////////////
 
 
@@ -120,17 +120,19 @@ function createTable(tableData) {
 	document.getElementById('game').appendChild(table);
 }
 
-function typeCheck(rows, cols)
+function typeCheck(rows, cols, i ,j)
 {
-	if( board[rows][cols+1].includes("class=\"mosnter\""))
+	if( board[rows+i][cols+j].includes("class=\"mosnter\""))
 	{
-		let id = parseInt(board[rows][cols+1].replace(/\D/g,'').slice(3,4));
+		let id = parseInt(board[rows+i][cols+j].replace(/\D/g,'').slice(3,4));
 		fight(id);
+		return;
 	} 
-	if( board[rows][cols+1].includes("class=\"item\""))
+	if( board[rows+i][cols+j].includes("class=\"item\""))
 	{
-		let id = parseInt(board[rows][cols+1].replace(/\D/g,'').slice(3,4));
+		let id = parseInt(board[rows+i][cols+j].replace(/\D/g,'').slice(3,4));
 		supply(id);
+		return;
 	} 
 }
 
@@ -142,7 +144,7 @@ function stepLeft(rows,cols)
 		{
 			return;
 		}
-
+		typeCheck(rows,cols,0,-1);
 		board[rows][cols]="";
 		board[rows][cols-1]=player;
 		boardCols--;
@@ -156,7 +158,7 @@ function stepRight(rows,cols)
 		{
 			return;
 		}
-		typeCheck(rows,cols);
+		typeCheck(rows,cols,0,1);
 		board[rows][cols]="";
 		board[rows][cols+1]=player;
 		boardCols++;
@@ -170,7 +172,7 @@ function stepUp(rows,cols)
 		{
 			return;
 		}
-
+		typeCheck(rows,cols,-1,0);
 		board[rows][cols]="";
 		board[rows-1][cols]=player;
 		boardRows--;
@@ -184,6 +186,7 @@ function stepDown(rows,cols)
 		{
 			return;
 		}
+		typeCheck(rows,cols,1,0);
 		board[rows][cols]="";
 		board[rows+1][cols]=player;
 		boardRows++;
@@ -199,6 +202,7 @@ function fight(i){
 			document.getElementById("fight").innerHTML = "<div class=\"fightArgmntLeft\">Player Life: " + userLife + "<br /><img src=\"assets/images/cookie.webp\" height=\"50px\" /><br />Power: " + userDamage + "</div><div class=\"fightArgmntRight\">Monster Life: " + monsterLife + "<br /><img src=\"" + objMonster.monsters[i].img + "\" height=\"50px\" /><br />Power: " + monsterDamage + "</div>";
 			userLife -= monsterDamage;
 			monsterLife -= userDamage;
+			
 			if (userLife > 0 && monsterLife > 0) {
 				fightArgmnt();
 			}else if(userLife > 0){
@@ -210,7 +214,7 @@ function fight(i){
 				document.getElementById("fight").innerHTML = "You Lost!";
 				return 0;
 			}
-		}, 250)
+		}, 750);
 	}
 	let arg = fightArgmnt();
 	if(arg === 0){
