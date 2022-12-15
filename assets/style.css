@@ -10,7 +10,8 @@ table {
 }
 
 td, th {
-	width: 60px;
+	min-width: 60px;
+	max-width: 60px;
 	height: 60px;
 	text-align: center;
 	border-left: 1px solid black;
