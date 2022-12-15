@@ -25,6 +25,11 @@ td, th {
 }
 .user {
 	width: 20%;
+	background: darkblue;
+	margin: 10px;
+	border: 3px solid #1e1158;
+	border-radius: 25px;
+	height: 300px;
 }
 .game {
 	width: 60%;
