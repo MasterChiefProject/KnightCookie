@@ -3,7 +3,7 @@ body {
 	color: white;
 }
 table {
-	background-image: url("images/background.jpg");
+	background-image: url("images/background.webp");
 	background-repeat: no-repeat;
 	background-size: cover;
 	border: 1px solid brown;
