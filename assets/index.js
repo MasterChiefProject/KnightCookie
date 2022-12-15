@@ -32,10 +32,10 @@ for (let i = 0; i < boardSize; i++) {
 		const randNum = Math.floor(Math.random() * 4) + 1;
 		if(randNum == 2){
 			const randItem = Math.floor(Math.random() * 10);
-			board[i][j] = "<img src=\"assets/images/questionMark.png\" width=\"25px\" height=\"25px\" style=\"position:absolute\"/> <span style=\"visibility: collapse;\"; class=\"type\"> item </span> <span style=\"visibility: hidden;\"; class=\"number\">" + obj.monsters[randItem].id + "</span>";
+			board[i][j] = "<img src=\"assets/images/questionMark.png\" width=\"25px\" height=\"25px\" style=\"position:absolute\"/> <span style=\"visibility: collapse;\"; class=\"item\"> item </span> <span style=\"visibility: hidden;\"; class=\"number\">" + obj.monsters[randItem].id + "</span>";
 		}else if(randNum == 3){
 			const randMon = Math.floor(Math.random() * 10);
-			board[i][j] = "<img src=\"assets/images/questionMark.png\" width=\"25px\" height=\"25px\" style=\"position:absolute\"/> <span style=\"visibility: collapse;\"; class=\"type\"> monster </span> <span style=\"visibility: hidden;\"; class=\"number\">" + obj.monsters[randMon].id + "</span>";
+			board[i][j] = "<img src=\"assets/images/questionMark.png\" width=\"25px\" height=\"25px\" style=\"position:absolute\"/> <span style=\"visibility: collapse;\"; class=\"mosnter\"> monster </span> <span style=\"visibility: hidden;\"; class=\"number\">" + obj.monsters[randMon].id + "</span>";
 		}else{
 			board[i][j] = "";
 		}
@@ -68,6 +68,16 @@ function createTable(tableData) {
 }
 createTable(board);
 
+function typeCheck(rows, cols)
+{
+	if( board[rows][cols+1].includes("class=\"mosnter\""))
+	{
+		let id = parseInt(board[rows][cols+1].replace(/\D/g,'').slice(3,4));
+		fight(id);
+	} 
+}
+
+
 function stepLeft(rows,cols)
 {
 	if(moveAbility){
@@ -75,6 +85,7 @@ function stepLeft(rows,cols)
 		{
 			return;
 		}
+
 		board[rows][cols]="";
 		board[rows][cols-1]=player;
 		boardCols--;
@@ -88,7 +99,7 @@ function stepRight(rows,cols)
 		{
 			return;
 		}
-
+		typeCheck(rows,cols);
 		board[rows][cols]="";
 		board[rows][cols+1]=player;
 		boardCols++;
@@ -179,4 +190,5 @@ function fight(i){
 	}
 	return 1;
 }
+
 
