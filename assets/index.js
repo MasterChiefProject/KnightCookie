@@ -66,7 +66,6 @@ document.addEventListener('keyup' , isPressed);
 //////////////////////////////------MAIN-----//////////////////////////////
 
 
-
 //////////////////////////////---FUNCTIONS---//////////////////////////////
 function isPressed() {
 pressed = false; 
@@ -199,19 +198,21 @@ function fight(i){
 	let monsterDamage = objMonster.monsters[i].damage;
 	function fightArgmnt(){
 		setTimeout(function() {
-			document.getElementById("fight").innerHTML = "<div class=\"fightArgmntLeft\">Player Life: " + userLife + "<br /><img src=\"assets/images/cookie.webp\" height=\"50px\" /><br />Power: " + userDamage + "</div><div class=\"fightArgmntRight\">Monster Life: " + monsterLife + "<br /><img src=\"" + objMonster.monsters[i].img + "\" height=\"50px\" /><br />Power: " + monsterDamage + "</div>";
+			document.getElementById("fight").innerHTML = "<div style=\"display:flex; flex-direction:row; justify-content:center; align-items:flex-end; padding-top:2.5rem;\">" + "<div class=\"fightArgmntLeft\">Player Life: " + userLife + "<br /><img src=\"assets/images/cookie.webp\" height=\"50px\" /><br />Power: " + userDamage + "</div><div class=\"fightArgmntRight\">Monster Life: " + monsterLife + "<br /><img src=\"" + objMonster.monsters[i].img + "\" height=\"50px\" /><br />Power: " + monsterDamage + "</div>" + "</div>";
 			userLife -= monsterDamage;
 			monsterLife -= userDamage;
-			
 			if (userLife > 0 && monsterLife > 0) {
 				fightArgmnt();
 			}else if(userLife > 0){
 				moveAbility = 1;
-				document.getElementById("fight").innerHTML = "You Won!";
+				document.getElementById("fight").innerHTML = "<div style=\"display:flex; flex-direction:row; justify-content:center; align-items:flex-end; padding-top:2.5rem;\">" + "You Won!" + "</div>";
 				return 1;
 			}else{
 				moveAbility = 0;
-				document.getElementById("fight").innerHTML = "You Lost!";
+				document.getElementById("fight").innerHTML = "<div style=\"display:flex; flex-direction:row; justify-content:center; align-items:flex-end; padding-top:2.5rem;\">" + "You Lost!"  + "</div>";
+				let btn = document.getElementById("play");
+				btn.removeAttribute("hidden");
+				btn.innerHTML = "Play Again";
 				return 0;
 			}
 		}, 750);

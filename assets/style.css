@@ -51,3 +51,8 @@ td, th {
 	float: right;
 	width: 50%;
 }
+
+#play{
+	width: 100px;
+	height: 25px;
+}
