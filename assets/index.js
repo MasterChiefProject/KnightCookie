@@ -44,8 +44,19 @@ for (let i = 0; i < boardSize; i++) {
 			const randItem = Math.floor(Math.random() * 4);
 			board[i][j] = "<img src=\"assets/images/questionMark.webp\" width=\"25px\" height=\"25px\" style=\"position:absolute\"/> <span style=\"visibility: collapse;\"; class=\"item\"> item </span> <span style=\"visibility: hidden;\"; class=\"number\">" + objItem.items[randItem].id + "</span>";
 		}else if(randNum == 3){
-			const randMonster = Math.floor(Math.random() * 10);
-			board[i][j] = "<img src=\"assets/images/questionMark.webp\" width=\"25px\" height=\"25px\" style=\"position:absolute\"/> <span style=\"visibility: collapse;\"; class=\"mosnter\"> monster </span> <span style=\"visibility: hidden;\"; class=\"number\">" + objMonster.monsters[randMonster].id + "</span>";
+			const increasedChance=Math.floor(Math.random()*3);
+			if(increasedChance!=0)
+			{
+					const randMonster = Math.floor(Math.random() * 4);
+					board[i][j] = "<img src=\"assets/images/questionMark.webp\" width=\"25px\" height=\"25px\" style=\"position:absolute\"/> <span style=\"visibility: collapse;\"; class=\"mosnter\"> monster </span> <span style=\"visibility: hidden;\"; class=\"number\">" + objMonster.monsters[randMonster].id + "</span>";
+			}
+			else
+			{
+				const randMonster = Math.floor(Math.random() * 6)+4;
+				console.log(randMonster);
+
+				board[i][j] = "<img src=\"assets/images/questionMark.webp\" width=\"25px\" height=\"25px\" style=\"position:absolute\"/> <span style=\"visibility: collapse;\"; class=\"mosnter\"> monster </span> <span style=\"visibility: hidden;\"; class=\"number\">" + objMonster.monsters[randMonster].id + "</span>";
+			}
 		}else{
 			board[i][j] = "";
 		}
@@ -207,13 +218,13 @@ function stepDown(rows,cols)
 	}
 }
 
-function fight(i){
+function fight(id){
 	moveAbility = 0;
-	let monsterLife = objMonster.monsters[i].life;
-	let monsterDamage = objMonster.monsters[i].damage;
+	let monsterLife = objMonster.monsters[id].life;
+	let monsterDamage = objMonster.monsters[id].damage;
 	function fightArgmnt(){
 		setTimeout(function() {
-			document.getElementById("fight").innerHTML = "<div style=\"display:flex; flex-direction:row; justify-content:center; align-items:flex-end; padding-top:2.5rem;\">" + "<div class=\"fightArgmntLeft\">Player Life: " + userLife + "<br /><img src=\"assets/images/cookie.webp\" height=\"50px\" /><br />Power: " + userDamage + "</div><div class=\"fightArgmntRight\">Monster Life: " + monsterLife + "<br /><img src=\"" + objMonster.monsters[i].img + "\" height=\"50px\" /><br />Power: " + monsterDamage + "</div>" + "</div>";
+			document.getElementById("fight").innerHTML = "<div style=\"display:flex; flex-direction:row; justify-content:center; align-items:flex-end; padding-top:2.5rem;\">" + "<div class=\"fightArgmntLeft\">Player Life: " + userLife + "<br /><img src=\"assets/images/cookie.webp\" height=\"50px\" /><br />Power: " + userDamage + "</div><div class=\"fightArgmntRight\">Monster Life: " + monsterLife + "<br /><img src=\"" + objMonster.monsters[id].img + "\" height=\"50px\" /><br />Power: " + monsterDamage + "</div>" + "</div>";
 			userLife -= monsterDamage;
 			monsterLife -= userDamage;
 			if (userLife > 0 && monsterLife > 0) {
@@ -230,7 +241,7 @@ function fight(i){
 				btn.innerHTML = "Play Again";
 				return 0;
 			}
-		}, 750);
+		}, 500);
 	}
 	let arg = fightArgmnt();
 	if(arg === 0){
@@ -239,12 +250,12 @@ function fight(i){
 	return 1;
 }
 
-function supply(i){
-	let itemLife = parseInt(objItem.items[i].extraLife);
-	let itemDamage = parseInt(objItem.items[i].extraDamage);
+function supply(id){
+	let itemLife = parseInt(objItem.items[id].extraLife);
+	let itemDamage = parseInt(objItem.items[id].extraDamage);
 	userLife += itemLife;
 	userDamage += itemDamage;
-	document.getElementById("stats").innerHTML = "<div style=\"display:flex; flex-direction:row; justify-content:flex-start; align-items:flex-end; padding-top:2.5rem;\">" + "<div class =\"statLeft\">HP addition: " + itemLife + "<br /><img src=\"" + objItem.items[i].img + "\" height=\"50px\" /><br />Damage addition: " + itemDamage + "</div>" + "<div class =\"statRight\"> Updated Life: " + userLife + "<br /><img src=\"assets/images/cookie.webp\" height=\"50px\" /><br />Updated Damage: " + userDamage + "</div>" + "</div>" + "</div>";
+	document.getElementById("stats").innerHTML = "<div style=\"display:flex; flex-direction:row; justify-content:flex-start; align-items:flex-end; padding-top:2.5rem;\">" + "<div class =\"statLeft\">HP addition: " + itemLife + "<br /><img src=\"" + objItem.items[id].img + "\" height=\"50px\" /><br />Damage addition: " + itemDamage + "</div>" + "<div class =\"statRight\"> Updated Life: " + userLife + "<br /><img src=\"assets/images/cookie.webp\" height=\"50px\" /><br />Updated Damage: " + userDamage + "</div>" + "</div>" + "</div>";
 	return 1;
 }
 //////////////////////////////---FUNCTIONS---//////////////////////////////
