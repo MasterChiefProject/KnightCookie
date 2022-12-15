@@ -53,7 +53,6 @@ for (let i = 0; i < boardSize; i++) {
 			else
 			{
 				const randMonster = Math.floor(Math.random() * 6)+4;
-				console.log(randMonster);
 
 				board[i][j] = "<img src=\"assets/images/questionMark.webp\" width=\"25px\" height=\"25px\" style=\"position:absolute\"/> <span style=\"visibility: collapse;\"; class=\"mosnter\"> monster </span> <span style=\"visibility: hidden;\"; class=\"number\">" + objMonster.monsters[randMonster].id + "</span>";
 			}
