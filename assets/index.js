@@ -75,7 +75,6 @@ document.addEventListener('keydown', getInput);
 document.addEventListener('keyup' , isPressed);
 //////////////////////////////------MAIN-----//////////////////////////////
 
-
 //////////////////////////////---FUNCTIONS---//////////////////////////////
 function isPressed() {
 pressed = false; 
@@ -129,11 +128,11 @@ function createTable(tableData) {
 	document.getElementById('game').appendChild(table);
 }
 
-function createStat()
+function createStat(userLife, userDamage)
 {
 	document.getElementById("stats").innerHTML = "<div style=\"display:flex; flex-direction:row; justify-content:center; align-items:flex-end; padding-top:2.5rem;\">" + "<div class=\"fightArgmntLeft\">Player Life: " + userLife + "<br /><img src=\"assets/images/cookie.webp\" height=\"50px\" /><br />Damage:" + userDamage + "</div>" + "</div>";
 }
-createStat();
+createStat(userLife, userDamage);
 
 function typeCheck(rows, cols, i ,j)
 {
@@ -223,7 +222,7 @@ function fight(id){
 	let monsterDamage = objMonster.monsters[id].damage;
 	function fightArgmnt(){
 		setTimeout(function() {
-			document.getElementById("fight").innerHTML = "<div style=\"display:flex; flex-direction:row; justify-content:center; align-items:flex-end; padding-top:2.5rem;\">" + "<div class=\"fightArgmntLeft\">Player Life: " + userLife + "<br /><img src=\"assets/images/cookie.webp\" height=\"50px\" /><br />Power: " + userDamage + "</div><div class=\"fightArgmntRight\">Monster Life: " + monsterLife + "<br /><img src=\"" + objMonster.monsters[id].img + "\" height=\"50px\" /><br />Power: " + monsterDamage + "</div>" + "</div>";
+			document.getElementById("fight").innerHTML = "<div style=\"display:flex; flex-direction:row; justify-content:center; align-items:flex-end; padding-top:2.5rem;\">" + "<div class=\"fightArgmntLeft\">Player Life: " + userLife + "<br /><img src=\"assets/images/cookie.webp\" height=\"50px\" /><br />Damage: " + userDamage + "</div><div class=\"fightArgmntRight\">Monster Life: " + monsterLife + "<br /><img src=\"" + objMonster.monsters[id].img + "\" height=\"50px\" /><br />Damage: " + monsterDamage + "</div>" + "</div>";
 			userLife -= monsterDamage;
 			monsterLife -= userDamage;
 			if (userLife > 0 && monsterLife > 0) {
@@ -231,6 +230,7 @@ function fight(id){
 			}else if(userLife > 0){
 				moveAbility = 1;
 				document.getElementById("fight").innerHTML = "<div style=\"display:flex; flex-direction:row; justify-content:center; align-items:flex-end; padding-top:2.5rem;\">" + "You Won!" + "</div>";
+				createStat(userLife, userDamage);
 				return 1;
 			}else{
 				moveAbility = 0;
@@ -238,6 +238,7 @@ function fight(id){
 				let btn = document.getElementById("refresh-button-war");
 				btn.removeAttribute("hidden");
 				btn.innerHTML = "Play Again";
+				createStat(0, 0);
 				return 0;
 			}
 		}, 500);
