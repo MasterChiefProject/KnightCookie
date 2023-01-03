@@ -1,37 +1,28 @@
-//////////////////////////////---VARIABLES---//////////////////////////////
-let userLife = 200;
-let userDamage = 5;
-let boardRows = 0;
-let boardCols = 0;
-let moveAbility = 1;
+import {
+	userLife,
+	userDamage,
+	boardSize,
+	boardRows,
+	boardCols,
+	moveAbility,
+	pressed,
+	player,
+	finishLine,
+	setUserLife,
+	setUserDamage,
+	setBoardRows,
+	setBoardCols,
+	setMoveAbility,
+	setPressed,
+	createStat
+} from './components/GlobalVariables.js';
 
-const player = "<img src=\"assets/images/cookie.webp\" width=\"25px\" height=\"25px\"/>"
-const finishLine = "<img src=\"assets/images/finishLine.webp\" width=\"60px\" height=\"60px\"/>"
-let monstersJson = '{ "monsters" : [' +
-'{ "id":"0" , "name":"Broccoli" , "img":"assets/images/broccoli.webp" , "life":"80" , "damage":"25" },' +
-'{ "id":"1" , "name":"Carrot" , "img":"assets/images/carrot.webp" , "life":"120" , "damage":"5" },' +
-'{ "id":"2" , "name":"Beetroot" , "img":"assets/images/beetroot.webp" , "life":"100" , "damage":"20" },' +
-'{ "id":"3" , "name":"Pepper" , "img":"assets/images/pepper.webp" , "life":"110" , "damage":"45" },' +
-'{ "id":"4" , "name":"Spinach" , "img":"assets/images/spinach.webp" , "life":"160" , "damage":"35" },' +
-'{ "id":"5" , "name":"Avocado" , "img":"assets/images/avocado.webp" , "life":"170" , "damage":"40" },' +
-'{ "id":"6" , "name":"Walnuts" , "img":"assets/images/walnut.webp" , "life":"70" , "damage":"50" },' +
-'{ "id":"7" , "name":"Apple" , "img":"assets/images/apple.webp" , "life":"300" , "damage":"30" },' +
-'{ "id":"8" , "name":"Gym" , "img":"assets/images/gym.webp" , "life":"200" , "damage":"75" },' +
-'{ "id":"9" , "name":"Protein Bar" , "img":"assets/images/proteinbar.webp" , "life":"100" , "damage":"140" } ]}';
+import {monstersJson, objMonster} from './components/JSON/Monsters.js';
 
-let itemsJson = '{ "items" : [' +
-'{ "id":"0" , "name":"MiniMarshmallows" , "img":"assets/images/minimarshmallows.webp" , "extraLife":"5" , "extraDamage":"5" },' +
-'{ "id":"1" , "name":"CrushedCandyCanes" , "img":"assets/images/crushedcandycanes.webp" , "extraLife":"10" , "extraDamage":"10" },' +
-'{ "id":"2" , "name":"Confetti" , "img":"assets/images/confetti.webp" , "extraLife":"15" , "extraDamage":"15" },' +
-'{ "id":"3" , "name":"Rainbow" , "img":"assets/images/dragees.webp" , "extraLife":"30" , "extraDamage":"30" } ]}';
-
-let pressed = false;
-const objMonster = JSON.parse(monstersJson);
-const objItem = JSON.parse(itemsJson);
+import {itemsJson, objItem} from './components/JSON/Items.js';
 
 
 // Create the board as a boardSize x boardSize two-dimensional array
-const boardSize = 10;
 let board = new Array(boardSize);
 for (let i = 0; i < boardSize; i++) {
 	board[i] = new Array(boardSize);
@@ -77,12 +68,12 @@ document.addEventListener('keyup' , isPressed);
 
 //////////////////////////////---FUNCTIONS---//////////////////////////////
 function isPressed() {
-pressed = false; 
+	setPressed(false); 
 }
 
 function getInput(event) {
     if (pressed) return;
-   	pressed = true;
+   	setPressed(true);
 
 	document.getElementById("table").remove();
 	
@@ -128,12 +119,6 @@ function createTable(tableData) {
 	document.getElementById('game').appendChild(table);
 }
 
-function createStat(userLife, userDamage)
-{
-	document.getElementById("stats").innerHTML = "<div style=\"display:flex; flex-direction:row; justify-content:center; align-items:flex-end; padding-top:2.5rem;\">" + "<div class=\"fightArgmntLeft\">Player Life: " + userLife + "<br /><img src=\"assets/images/cookie.webp\" height=\"50px\" /><br />Damage:" + userDamage + "</div>" + "</div>";
-}
-createStat(userLife, userDamage);
-
 function typeCheck(rows, cols, i ,j)
 {
 	if(board[rows+i][cols+j].includes("finishLine.webp"))
@@ -145,6 +130,7 @@ function typeCheck(rows, cols, i ,j)
 		let btn = document.getElementById("refresh-button-stats");
 		btn.removeAttribute("hidden");
 		btn.innerHTML = "Play Again";
+		setMoveAbility(0);
 	}
 	if(board[rows+i][cols+j].includes("class=\"mosnter\""))
 	{
@@ -170,7 +156,7 @@ function stepLeft(rows,cols)
 		typeCheck(rows,cols,0,-1);
 		board[rows][cols]="";
 		board[rows][cols-1]=player;
-		boardCols--;
+		setBoardCols(boardCols - 1);
 	}
 }
 
@@ -184,7 +170,7 @@ function stepRight(rows,cols)
 		typeCheck(rows,cols,0,1);
 		board[rows][cols]="";
 		board[rows][cols+1]=player;
-		boardCols++;
+		setBoardCols(boardCols + 1);
 	}
 }
 
@@ -198,7 +184,7 @@ function stepUp(rows,cols)
 		typeCheck(rows,cols,-1,0);
 		board[rows][cols]="";
 		board[rows-1][cols]=player;
-		boardRows--;
+		setBoardRows(boardRows - 1);
 	}
 }
 
@@ -212,50 +198,10 @@ function stepDown(rows,cols)
 		typeCheck(rows,cols,1,0);
 		board[rows][cols]="";
 		board[rows+1][cols]=player;
-		boardRows++;
+		setBoardRows(boardRows + 1);
 	}
 }
 
-function fight(id){
-	moveAbility = 0;
-	let monsterLife = objMonster.monsters[id].life;
-	let monsterDamage = objMonster.monsters[id].damage;
-	function fightArgmnt(){
-		setTimeout(function() {
-			document.getElementById("fight").innerHTML = "<div style=\"display:flex; flex-direction:row; justify-content:center; align-items:flex-end; padding-top:2.5rem;\">" + "<div class=\"fightArgmntLeft\">Player Life: " + userLife + "<br /><img src=\"assets/images/cookie.webp\" height=\"50px\" /><br />Damage: " + userDamage + "</div><div class=\"fightArgmntRight\">Monster Life: " + monsterLife + "<br /><img src=\"" + objMonster.monsters[id].img + "\" height=\"50px\" /><br />Damage: " + monsterDamage + "</div>" + "</div>";
-			userLife -= monsterDamage;
-			monsterLife -= userDamage;
-			if (userLife > 0 && monsterLife > 0) {
-				fightArgmnt();
-			}else if(userLife > 0){
-				moveAbility = 1;
-				document.getElementById("fight").innerHTML = "<div style=\"display:flex; flex-direction:row; justify-content:center; align-items:flex-end; padding-top:2.5rem;\">" + "You Won!" + "</div>";
-				createStat(userLife, userDamage);
-				return 1;
-			}else{
-				moveAbility = 0;
-				document.getElementById("fight").innerHTML = "<div style=\"display:flex; flex-direction:row; justify-content:center; align-items:flex-end; padding-top:2.5rem;\">" + "You Lost!"  + "</div>";
-				let btn = document.getElementById("refresh-button-war");
-				btn.removeAttribute("hidden");
-				btn.innerHTML = "Play Again";
-				createStat(0, 0);
-				return 0;
-			}
-		}, 500);
-	}
-	let arg = fightArgmnt();
-	if(arg === 0){
-		return 0;
-	}
-	return 1;
-}
-
-function supply(id){
-	let itemLife = parseInt(objItem.items[id].extraLife);
-	let itemDamage = parseInt(objItem.items[id].extraDamage);
-	userLife += itemLife;
-	userDamage += itemDamage;
-	document.getElementById("stats").innerHTML = "<div style=\"display:flex; flex-direction:row; justify-content:flex-start; align-items:flex-end; padding-top:2.5rem;\">" + "<div class =\"statLeft\">HP addition: " + itemLife + "<br /><img src=\"" + objItem.items[id].img + "\" height=\"50px\" /><br />Damage addition: " + itemDamage + "</div>" + "<div class =\"statRight\"> Updated Life: " + userLife + "<br /><img src=\"assets/images/cookie.webp\" height=\"50px\" /><br />Updated Damage: " + userDamage + "</div>" + "</div>" + "</div>";
-	return 1;
-}
+import {fight} from './components/Fight/Fight.js';
+import {supply} from './components/Item/Item.js';
 //////////////////////////////---FUNCTIONS---//////////////////////////////
