@@ -19,13 +19,13 @@ for (let i = 0; i < boardSize; i++) {
 			if(increasedChance!=0)
 			{
 					const randMonster = Math.floor(Math.random() * 4);
-					board[i][j] = "<img src=\"assets/images/questionMark.webp\" width=\"25px\" height=\"25px\" style=\"position:absolute\"/> <span style=\"visibility: collapse;\"; class=\"mosnter\"> monster </span> <span style=\"visibility: hidden;\"; class=\"number\">" + objMonster.monsters[randMonster].id + "</span>";
+					board[i][j] = "<img src=\"assets/images/questionMark.webp\" width=\"25px\" height=\"25px\" style=\"position:absolute\"/> <span style=\"visibility: collapse;\"; class=\"monster\"> monster </span> <span style=\"visibility: hidden;\"; class=\"number\">" + objMonster.monsters[randMonster].id + "</span>";
 			}
 			else
 			{
 				const randMonster = Math.floor(Math.random() * 6)+4;
 
-				board[i][j] = "<img src=\"assets/images/questionMark.webp\" width=\"25px\" height=\"25px\" style=\"position:absolute\"/> <span style=\"visibility: collapse;\"; class=\"mosnter\"> monster </span> <span style=\"visibility: hidden;\"; class=\"number\">" + objMonster.monsters[randMonster].id + "</span>";
+				board[i][j] = "<img src=\"assets/images/questionMark.webp\" width=\"25px\" height=\"25px\" style=\"position:absolute\"/> <span style=\"visibility: collapse;\"; class=\"monster\"> monster </span> <span style=\"visibility: hidden;\"; class=\"number\">" + objMonster.monsters[randMonster].id + "</span>";
 			}
 		}else{
 			board[i][j] = "";
