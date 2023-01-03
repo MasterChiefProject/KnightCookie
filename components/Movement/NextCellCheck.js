@@ -16,13 +16,13 @@ export function NextCellCheck(rows, cols, i ,j)
         return;
 	}
 
-	if(board[rows+i][cols+j].includes("class=\"mosnter\""))
+	if(board[rows+i][cols+j].includes("class=\"monster\""))
 	{
 		let id = parseInt(board[rows+i][cols+j].replace(/\D/g,'').slice(4,5));
 		fight(id);
 		return;
 	} 
-
+    
 	if( board[rows+i][cols+j].includes("class=\"item\""))
 	{
 		let id = parseInt(board[rows+i][cols+j].replace(/\D/g,'').slice(4,5));
