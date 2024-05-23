@@ -1,4 +1,4 @@
-# KnightCookie! a JavaScriptGame
+# KnightCookie! Made in javascript
 
 This game is about a cookie delivery, it needs to go from the starting point to the finish line.<br>
 The game contains a board and the cookie can move between the board slots.<br>
